@@ -3,7 +3,7 @@ import os
 import json
 from jira import JIRA
 from datetime import datetime
-
+import shutil
 
 cmd = "git clone https://github.com/pelos/testing_selenium.git"
 p1 = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
@@ -16,10 +16,11 @@ p1.stdout.close()
 tt = "{0} \nTests:\n".format(datetime.now())
 
 test_to_execute = []
-folder0 = "testing_selenium"
-folder1 = "tests_to_run"
 parent = os.path.abspath(os.path.dirname(__file__))
-test_folder = os.path.abspath(os.path.join(parent, folder0, folder1))
+folder0 = "testing_selenium"
+testing_selenium_folder = os.path.abspath(os.path.join(parent, folder0))
+test_to_run_folder = "tests_to_run"
+test_folder = os.path.abspath(os.path.join(testing_selenium_folder, test_to_run_folder))
 json_file = os.path.abspath(os.path.join(test_folder, "test_organization.jsonc"))
 print(json_file)
 print("json_file exists: {0}".format(os.path.isfile(json_file)))
@@ -78,3 +79,5 @@ for i in file_lines:
 # print(file_lines)
 comment = jira.add_comment(issue, tt)
 logger_file.close()
+
+shutil.rmtree(testing_selenium_folder)
