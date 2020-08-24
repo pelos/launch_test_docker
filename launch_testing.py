@@ -12,13 +12,19 @@ print(out.decode())
 print(err.decode())
 p1.stdout.close()
 
+print("file dirs structure")
+for subdir, dirs, files in os.walk(r'C:\Users\admin'):
+    for filename in files:
+        filepath = subdir + os.sep + filename
+        print(filepath)
+
 print("os.getcwd()")
 print(os.getcwd())
 
 tt = "{0} \nTests:\n".format(datetime.now())
 
 test_to_execute = []
-parent = os.path.abspath(os.path.dirname(__file__))
+parent = os.path.abspath(os.getcwd())
 print("os.listdir(parent)")
 print(os.listdir(parent))
 folder0 = "testing_selenium"
