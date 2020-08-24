@@ -54,7 +54,7 @@ except:
     print(os.environ["test_case"])
     print('type(os.environ["test_case"]):')
     print(type(os.environ["test_case"]))
-    if os.environ["test_case"].endswith(".py"):
+    if os.environ["test_case"].endswith(".py") is False:
         raise ValueError("single test_case doesnt end with .py")
     test_to_execute.append(os.environ["test_case"])
 
