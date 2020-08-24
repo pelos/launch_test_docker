@@ -12,12 +12,12 @@ print(out.decode())
 print(err.decode())
 p1.stdout.close()
 
-print("file dirs structure")
-for subdir, dirs, files in os.walk(r'C:\Users\admin'):
+print("file dirs structure:")
+for subdir, dirs, files in os.walk(os.getcwd()):
     for filename in files:
         filepath = subdir + os.sep + filename
         print(filepath)
-
+print("")
 print("os.getcwd()")
 print(os.getcwd())
 
