@@ -12,12 +12,12 @@ print(out.decode())
 print(err.decode())
 p1.stdout.close()
 
-print("file dirs structure:")
-for subdir, dirs, files in os.walk(os.getcwd()):
-    for filename in files:
-        filepath = subdir + os.sep + filename
-        print(filepath)
-print("")
+# print("file dirs structure:")
+# for subdir, dirs, files in os.walk(os.getcwd()):
+#     for filename in files:
+#         filepath = subdir + os.sep + filename
+#         print(filepath)
+# print("")
 print("os.getcwd()")
 print(os.getcwd())
 
@@ -50,10 +50,6 @@ try:
 except:
     print("we didnt find that test_case set")
     print("we are going to use {0}".format(os.environ["test_case"]))
-    print('os.environ["test_case"]:')
-    print(os.environ["test_case"])
-    print('type(os.environ["test_case"]):')
-    print(type(os.environ["test_case"]))
     if os.environ["test_case"].endswith(".py") is False:
         raise ValueError("single test_case doesnt end with .py")
     test_to_execute.append(os.environ["test_case"])
