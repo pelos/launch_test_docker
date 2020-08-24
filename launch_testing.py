@@ -80,4 +80,7 @@ for i in file_lines:
 comment = jira.add_comment(issue, tt)
 logger_file.close()
 
+
+print(os.listdir(parent))
+
 shutil.rmtree(testing_selenium_folder)
