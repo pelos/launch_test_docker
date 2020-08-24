@@ -12,15 +12,24 @@ print(out.decode())
 print(err.decode())
 p1.stdout.close()
 
+print("os.getcwd()")
+print(os.getcwd())
 
 tt = "{0} \nTests:\n".format(datetime.now())
 
 test_to_execute = []
 parent = os.path.abspath(os.path.dirname(__file__))
+print("os.listdir(parent)")
+print(os.listdir(parent))
 folder0 = "testing_selenium"
 testing_selenium_folder = os.path.abspath(os.path.join(parent, folder0))
+print("os.listdir(testing_selenium_folder)")
+print(os.listdir(testing_selenium_folder))
 test_to_run_folder = "tests_to_run"
 test_folder = os.path.abspath(os.path.join(testing_selenium_folder, test_to_run_folder))
+print("os.listdir(test_folder)")
+print(os.listdir(test_folder))
+
 json_file = os.path.abspath(os.path.join(test_folder, "test_organization.jsonc"))
 print(json_file)
 print("json_file exists: {0}".format(os.path.isfile(json_file)))
@@ -35,6 +44,8 @@ try:
 except:
     print("we didnt find that test_case set")
     print("we are going to use {0}".format(os.environ["test_case"]))
+    if os.environ["test_case"].endswith(".py"):
+        raise ValueError("single test_case doesnt end with .py")
     test_to_execute.append(os.environ["test_case"])
 
 
@@ -81,6 +92,8 @@ comment = jira.add_comment(issue, tt)
 logger_file.close()
 
 
+print("parent directory:")
 print(os.listdir(parent))
+print(os.path.isdir(parent))
 
-shutil.rmtree(testing_selenium_folder)
+shutil.rmtree(testing_selenium_folder, ignore_errors=True)
