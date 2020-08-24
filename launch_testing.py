@@ -50,6 +50,10 @@ try:
 except:
     print("we didnt find that test_case set")
     print("we are going to use {0}".format(os.environ["test_case"]))
+    print('os.environ["test_case"]:')
+    print(os.environ["test_case"])
+    print('type(os.environ["test_case"]):')
+    print(type(os.environ["test_case"]))
     if os.environ["test_case"].endswith(".py"):
         raise ValueError("single test_case doesnt end with .py")
     test_to_execute.append(os.environ["test_case"])
@@ -98,8 +102,8 @@ comment = jira.add_comment(issue, tt)
 logger_file.close()
 
 
-print("parent directory:")
-print(os.listdir(parent))
-print(os.path.isdir(parent))
-
+print("\ntesting_selenium_folder directory:")
+print(os.listdir(testing_selenium_folder))
+print(os.path.isdir(testing_selenium_folder))
 shutil.rmtree(testing_selenium_folder, ignore_errors=True)
+print("testing_selenium_folder deleted")
