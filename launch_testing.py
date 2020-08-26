@@ -5,7 +5,13 @@ from jira import JIRA
 from datetime import datetime
 import shutil
 
-cmd = "git clone https://github.com/pelos/testing_selenium.git"
+# for testing locally
+# os.environ["test_case"] = "stage"
+#  --------------
+
+repo_name = "testing_selenium"
+
+cmd = "git clone https://github.com/pelos/{0}.git".format(repo_name)
 p1 = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 out, err = p1.communicate()
 print(out.decode())
@@ -27,12 +33,11 @@ test_to_execute = []
 parent = os.path.abspath(os.getcwd())
 print("os.listdir(parent)")
 print(os.listdir(parent))
-folder0 = "testing_selenium"
-testing_selenium_folder = os.path.abspath(os.path.join(parent, folder0))
-print("os.listdir(testing_selenium_folder)")
-print(os.listdir(testing_selenium_folder))
+repo_folder = os.path.abspath(os.path.join(parent, repo_name))
+print("os.listdir(repo_folder)")
+print(os.listdir(repo_folder))
 test_to_run_folder = "tests_to_run"
-test_folder = os.path.abspath(os.path.join(testing_selenium_folder, test_to_run_folder))
+test_folder = os.path.abspath(os.path.join(repo_folder, test_to_run_folder))
 print("os.listdir(test_folder)")
 print(os.listdir(test_folder))
 
@@ -60,13 +65,23 @@ for i in test_to_execute:
     print(i)
 print("-----------------------------")
 
+# create a new folder and move the tests scripts there
+temp_test_runner_folder = os.path.abspath(os.path.join(repo_folder, "temp_test_runner"))
+print("Creating a new temporary folder: {0}".format(temp_test_runner_folder))
+os.mkdir(temp_test_runner_folder)
+
 
 logger_file = open("logger_file.log", "w+")
 for i in test_to_execute:
     tt = tt + i + "\n"
     path_to_file = os.path.abspath(os.path.join(test_folder, i))
     print("Test file: {0}  exists: {1}".format(path_to_file, os.path.isfile(path_to_file)))
-    cmd = "pytest {0}".format(path_to_file)
+    shutil.copy(path_to_file, temp_test_runner_folder)
+
+# the flow cli  use the folder doesnt run the test individualy we might change the subprocess to not be a loop
+for i in os.listdir(temp_test_runner_folder):
+    path_to_temp_file = os.path.abspath(os.path.join(temp_test_runner_folder, i))
+    cmd = "pytest {0}".format(path_to_temp_file)
     p1 = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     out, err = p1.communicate()
     print(out.decode())
@@ -75,6 +90,12 @@ for i in test_to_execute:
     logger_file.write(err.decode())
     p1.stdout.close()
 logger_file.close()
+
+print("Deleting temp folder: {0}".format(temp_test_runner_folder))
+shutil.rmtree(temp_test_runner_folder)
+
+print("Deleting repo folder: {0}".format(repo_folder))
+shutil.rmtree(repo_folder, ignore_errors=True)
 
 
 JIRA_SERVER = os.environ["jira_server"]
@@ -99,7 +120,7 @@ logger_file.close()
 
 
 print("\ntesting_selenium_folder directory:")
-print(os.listdir(testing_selenium_folder))
-print(os.path.isdir(testing_selenium_folder))
-shutil.rmtree(testing_selenium_folder, ignore_errors=True)
+print(os.listdir(repo_folder))
+print(os.path.isdir(repo_folder))
+shutil.rmtree(repo_folder, ignore_errors=True)
 print("testing_selenium_folder deleted")
