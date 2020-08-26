@@ -91,12 +91,6 @@ for i in os.listdir(temp_test_runner_folder):
     p1.stdout.close()
 logger_file.close()
 
-print("Deleting temp folder: {0}".format(temp_test_runner_folder))
-shutil.rmtree(temp_test_runner_folder)
-
-print("Deleting repo folder: {0}".format(repo_folder))
-shutil.rmtree(repo_folder, ignore_errors=True)
-
 
 JIRA_SERVER = os.environ["jira_server"]
 USER = os.environ['user']
@@ -119,8 +113,8 @@ comment = jira.add_comment(issue, tt)
 logger_file.close()
 
 
-print("\ntesting_selenium_folder directory:")
-print(os.listdir(repo_folder))
-print(os.path.isdir(repo_folder))
+print("Deleting temp folder: {0}".format(temp_test_runner_folder))
+shutil.rmtree(temp_test_runner_folder)
+
+print("Deleting repo folder: {0}".format(repo_folder))
 shutil.rmtree(repo_folder, ignore_errors=True)
-print("testing_selenium_folder deleted")
