@@ -118,3 +118,5 @@ shutil.rmtree(temp_test_runner_folder)
 
 print("Deleting repo folder: {0}".format(repo_folder))
 shutil.rmtree(repo_folder, ignore_errors=True)
+
+print("script finish")
